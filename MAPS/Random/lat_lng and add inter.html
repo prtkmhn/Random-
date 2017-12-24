@@ -150,8 +150,8 @@ function showResult(result) {
 }
 
 function getLatitudeLongitude(callback, address) {
-    
-    address = address ;
+    // If adress is not supplied, use default value 'Ferrol, Galicia, Spain'
+    address = address || 'Ferrol, Galicia, Spain';
     // Initialize the Geocoder
     geocoder = new google.maps.Geocoder();
     if (geocoder) {

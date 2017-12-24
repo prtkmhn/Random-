@@ -1,4 +1,4 @@
-﻿var myloc={lat: -34.397, lng: 150.644}
+﻿
 var map;
 var infowindow;
 

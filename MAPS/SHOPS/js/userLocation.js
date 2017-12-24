@@ -19,7 +19,7 @@ function trackUser()
 
     console.log( '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>');
     
-     myLocation = new google.maps.LatLng({-34.397,150.644});
+     myLocation = new google.maps.LatLng(latitude, longitude);
     map = new google.maps.Map(document.getElementById('map-canvas'), {
     center: myLocation,
     zoom: 15
