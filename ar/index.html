@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hello, World! • A-Frame</title>
+  <meta name="description" content="Hello, World! • A-Frame">
+  <script src="aframe.js"></script>
+  <script src="camera.js"></script>
+   <!--script src="aframe-inspector.js"></script-->
+  <style>   
+    html, body, div, a-scene {
+      background-color: transparent;
+    }
+    video, img {
+      width: 100%    !important;
+      max-width: 100%    !important;
+      height: auto   !important;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1000;
+    }
+    .coords {
+      position: absolute;
+      top: 0.1rem;
+      left: 0.1rem;
+      background-color: silver;
+      opacity: 0.5;
+      color: #fff;
+    }
+    .glow {
+      background: #527fa9;
+      box-shadow: inset 0 0 30px 15px #49628a;
+      transition: 500ms ease-in-out;
+    }
+  </style>   
+</head>
+<body>
+  <a-scene>
+
+    <a-camera position="0 1.8 500"></a-camera>
+
+    <a-assets>
+      <a-asset-item id="ducky-obj" src="tree.obj">
+         <a-asset-item id="ducky-mtl" src="tree.mtl"></a-asset-item>
+      </a-asset-item>
+    </a-assets>
+    <a-entity position="-1.2310199173989236 0.04540535630962521 1.1856310389091882" rotation="0.98 0 1.36" scale="0.66 0.5599999999999999 0" geometry="primitive:sphere" wasd-controls="fly:true;acceleration:66.76"></a-entity>
+
+    <a-obj-model
+      src="#ducky-obj"
+      position="0 1200 -3000"
+      rotation="-180 -160 180"
+      scale="800 800 800"
+      mtl="#ducky-mtl">
+    </a-obj-model>
+
+  </a-scene>
+
+
+  <video id="inputVideo" autoplay loop></video>
+
+  <div class="coords">
+  </div>
+
+  <script type="text/javascript">
+     var vid = document.querySelector('#inputVideo');
+
+    cameraSource.start({
+      videoElement: vid,
+      callback: function() {
+        }
+    });
+    
+  </script>
+
+</body>
+</html>
+
