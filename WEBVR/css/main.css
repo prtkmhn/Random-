@@ -1,0 +1,340 @@
+
+
+html {
+  font-family: "Brandon Grotesque Bold", Helvetica, Arial, sans-serif;
+}
+
+canvas {
+}
+
+#container {
+  z-index: 9999;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: block;
+
+  content: 'viewport-units-buggyfill;' 'height: 100vh;';
+}
+
+#bgCastle {
+  margin: auto;
+  width: 100%;
+  height: 100vh;
+  display: block;
+  background: url(../img/castello@3x.png) center bottom no-repeat, url(../img/bg.png);
+  background-size: auto 33%;
+  position: absolute;
+  bottom: 0;
+  z-index: -1;
+
+  content: 'viewport-units-buggyfill;' 'height: 100vh;';
+}
+
+/* HOME */
+
+
+.homeDescription {
+  color: #613617;
+  text-transform: uppercase;
+  font-size: 2vh;
+  line-height: 3.5vh;
+  position: absolute;
+  top: 52.5vh;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 0.3em;
+  width: 100%;
+}
+
+#beginBtn, #startBtn, #vrBtn, #browserBtn {
+  text-transform: uppercase;
+  display: inline-block;
+  background-color: black;
+  font-size: 5.1vh;
+  padding: 1.5vh 2.5vh;
+  color: green;
+  text-decoration: none;
+  border-radius: 999vh;
+  position: absolute;
+  top: 62vh;
+  left: 50%;
+  transform: translateX(-50%);
+  letter-spacing: 0.2em;
+  min-width: 20vh;
+  text-align: center;
+  z-index: 99999;
+}
+
+#vrBtn {
+  display: none !important;
+}
+
+#labels {
+  color: #613617;
+  text-transform: uppercase;
+  font-size: 1.1vh;
+  line-height: 2vh;
+  position: absolute;
+  top: 83.5vh;
+  left: 50%;
+  transform: translateX(-50%);
+  letter-spacing: 0.2em;
+  width: 100%;
+  text-align: center;
+}
+
+.homeLabel {
+  display: inline-block;
+}
+
+.homeLabel img {
+  display: block;
+  float: left;
+  margin-right: 2vh;
+  height: 4vh;
+}
+
+.homeLabel span {
+  display: block;
+  float: left;
+  text-align: left;
+}
+
+#vrLabel {
+  background-size: auto 100%;
+  margin-right: 155px;
+}
+
+#audioLabel {
+  background-size: auto 100%;
+}
+
+/* LOADER */
+
+#loader ul {
+  width: 120vh;
+  text-align: center;
+  font-size: 1.1vh;
+  line-height: 2vh;
+  position: absolute;
+  top: 50vh;
+  left: 50%;
+  transform: translateX(-50%);
+  letter-spacing: 0.2em;
+}
+
+#loader li {
+  display: inline-block;
+  width: 33%;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+}
+
+#loader li:last-child {
+  margin-right: 0;
+}
+
+#loader li h3 {
+  color: #613617;
+  font-size: 2vh;
+  text-transform: uppercase;
+  line-height: 3vh;
+  letter-spacing: 0.35em;
+}
+
+#loader li span {
+  color: #613617;
+  font-family: "Brandon Grotesque Medium", Helvetica, Arial, sans-serif;
+  font-size: 1.9vh;
+  text-transform: lowercase;
+  letter-spacing: 0.2em;
+}
+
+#loader img {
+  position: absolute;
+  height: 6.5vh;
+  transform: translateX(-50%);
+  margin-top: -9vh;
+  opacity: 0;
+}
+
+/* UTILS */
+
+.hideOnDesktop {
+  display: none; !important;
+}
+
+.hideOnMobile {
+  display: block; !important;
+}
+
+.a-enter-vr-button {
+  background: url(../img/vr.svg) 50% 50%/70% 70% no-repeat rgba(255,255,255,.40) !important;
+  display: none !important;
+}
+
+/* PACE */
+
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.pace-inactive {
+  display: none;
+}
+
+.pace .pace-progress {
+  background: #e7663f;
+  position: fixed;
+  z-index: 99999;
+  bottom: 0;
+  right: 100%;
+  width: 100%;
+  height: 0.5vh;
+}
+
+@media (max-width: 768px)
+{
+  /* HOME */
+
+  .vtLogo {
+    height: 18.5vh;
+    top: 18.5vh;
+  }
+
+  .homeDescription {
+    top: 44vh;
+
+    font-size: 2.5vh;
+    line-height: 4vh;
+    letter-spacing: 0.3em;
+  }
+
+  #beginBtn, #startBtn, #vrBtn, #browserBtn {
+    font-size: 1.8vh;
+    line-height: normal;
+    padding: 2.2vh 3.5vh;
+    top: 60.5vh;
+    left: 50;
+    width: 38vh;
+
+    content: 'viewport-units-buggyfill;' 'font-size: 2vh' 'padding: 2.5vh 3.5vh' 'height: 60.5vh;';
+  }
+
+  #vrBtn {
+    top: 69vh;
+    display: block !important;
+
+    content: 'viewport-units-buggyfill;' 'top: 69vh;';
+  }
+
+  #labels {
+    font-size: 1.8vh;
+    line-height: 2.3vh;
+    position: absolute;
+    top: 88vh;
+    letter-spacing: 0.2em;
+
+    content: 'viewport-units-buggyfill;' 'top: 88vh;';
+  }
+
+  #vrLabel {
+    display: none;
+  }
+
+  .homeLabel img {
+    height: 4.5vh;
+  }
+
+  /* LOADER */
+
+  #loader ul {
+    width: 100%;
+    text-align: center;
+    font-size: 1.1vh;
+    line-height: 2vh;
+    position: absolute;
+    letter-spacing: 0.2em;
+    text-align: center;
+    top: 22vh;
+  }
+
+  #loader li {
+    width: 100%;
+    height: 21.5vh;
+    float: none;
+    display: block;
+    clear: both;
+  }
+
+  #loader li:last-child {
+    margin-right: 0;
+  }
+
+  #loader li h3 {
+    color: #613617;
+    font-size: 2.2vh;
+    text-transform: uppercase;
+    line-height: 3vh;
+    letter-spacing: 0.35em;
+    margin-bottom: 0.5vh;
+  }
+
+  #loader li span {
+    color: #613617;
+    font-family: "Brandon Grotesque Medium", Helvetica, Arial, sans-serif;
+    font-size: 2.1vh;
+    text-transform: lowercase;
+    letter-spacing: 0.2em;
+  }
+
+  #loader img {
+    position: absolute;
+    height: 7.75vh;
+    transform: translateX(-50%);
+    margin-top: -11vh;
+  }
+
+  #startBtn {
+    top: 81.5vh;
+  }
+
+  /* UTILS */
+
+  .hideOnDesktop {
+    display: block !important;
+  }
+
+  .hideOnMobile {
+    display: none !important;
+  }
+
+  .a-enter-vr-button {
+    display: block !important;
+  }
+
+  .pace .pace-progress {
+    bottom: inherit;
+    top: 0;
+  }
+}
+
+/* IE FIX */
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+{
+  #loader img {
+    position: inherit;
+    transform: none;
+    margin-bottom: 2vh;
+  }
+}

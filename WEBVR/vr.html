@@ -1,0 +1,521 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>VR</title>
+	<meta name="description" content="Esplora l'agriparco in una nuova esperienza 3D e VR">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-title" content="Vistaterra">
+
+	<link rel="apple-touch-icon" href="img/icon_ios.png">
+	<link rel="icon" sizes="192x192" href="img/icon_android.png">
+
+	<link href="css/reset.css" rel="stylesheet" />
+	<link href="css/main.css" rel="stylesheet" />
+
+
+
+	<script src="js/viewport-units-buggyfill.js"></script>
+
+</head>
+<body>
+	<div id="container">
+		<!-- Page initalize -->
+		<div id="home" style="display: block">
+			<div id="homedesc" class="homeDescription">
+				<span>come take a look<br>IN VR<br class="hideOnDesktop"> </span>
+			</div>
+			<a id="beginBtn" onClick="begin()" href="#">360 3D</a>
+			<a id="vrBtn" onClick="beginVR()" href="#">IN VR</a>
+			<div id="labels">
+			
+			</div>
+		</div>
+
+		<!-- Webgl non supportat -->
+		<div id="nowebgl" style="display: none">
+			<h1 id="webgllogo" class="vtLogo" style="opacity: 0">404 error with your browser</h1>
+			<div id="webgldesc" class="homeDescription" style="opacity: 0"></div>
+
+		</div>
+
+		<!-- Pagina di caricamento -->
+		<div id="loader" style="display: none">
+			
+			<div id="startBtnContainer" style="opacity: 0">
+				<a id="startBtn" href="#" style="display: none">START</a>
+			</div>
+		</div>
+
+		<div id="bgCastle"></div>
+	</div>
+
+	<script src="js/detector.js"></script>
+	<script src="js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript">
+	
+
+		function beginVR()
+		{
+			window.vrMode = true;
+			begin();
+		}
+
+		function begin()
+		{
+    
+
+			$('#homelogo').delay(0).fadeTo(500, 0);
+			$('#homedesc').delay(200).fadeTo(500, 0);
+			$('#beginBtn').delay(400).fadeTo(500, 0);
+			$('#vrBtn').delay(400).fadeTo(500, 0);
+			$('#labels').delay(600).fadeTo(500, 0, function() {
+				$('#home').hide();
+			});
+
+			if (!Modernizr.webgl)
+			{
+				$('#nowebgl').show();
+      	$('#webgllogo').delay(800).fadeTo(500, 1);
+				$('#webgldesc').delay(800).fadeTo(500, 1);
+				$('#browserBtn').delay(800).fadeTo(500, 1);
+      }
+			else
+			{
+				$('#loader').show();
+
+				
+				$('#inst0').delay(800).fadeTo(500, 1);
+				$('#inst1').delay(1000).fadeTo(500, 1);
+				$('#inst2').delay(1200).fadeTo(500, 1);
+
+				$('#inst0 img').delay(800).fadeTo(500, 1);
+				$('#inst1 img').delay(1000).fadeTo(500, 1);
+				$('#inst2 img').delay(1200).fadeTo(500, 1);
+
+				$('#startBtnContainer').delay(1400).fadeTo(500, 1);
+      }
+    };
+
+		window.viewportUnitsBuggyfill.init({
+				refreshDebounceWait: 50,
+				hacks: window.viewportUnitsBuggyfillHacks
+			});
+	</script>
+
+	<script data-pace-options='{ "ajax": false }' src="js/pace.min.js"></script>
+	<script src="js/aframe-v0.3.2.js"></script>
+	<script src="js/aframe-look-at-component.min.js"></script>
+	<script src="js/aframe-animation-component.min.js"></script>
+
+	<a-scene>
+		<a-assets>
+			<!-- Photo-->
+			<img id="main360" src="360/image1.jpg">
+			<img id="mainmenu360" src="360/main.jpg">
+			<img id="menu2360" src="360/img1.jpg">
+			<img id="menu360" src="360/img2.jpeg">
+			<img id="menu4360" src="360/img3.jpg">
+			<!-- info-->
+			<img id="info0" src="infos/desktop/luffy.png">
+			<img id="info1" src="infos/desktop/luffy.png">
+			<img id="info2" src="infos/desktop/luffy.png">
+			<img id="info3" src="infos/desktop/luffy.png">
+			<img id="info4" src="infos/desktop/luffy.png">
+			<img id="info5" src="infos/desktop/luffy.png">
+			<img id="info6" src="infos/desktop/luffy.png">
+			<img id="info7" src="infos/desktop/luffy.png">
+			<img id="info8" src="infos/desktop/luffy.png">
+			<img id="info9" src="infos/desktop/luffy.png">
+			<img id="info10" src="infos/desktop/luffy.png">
+			<img id="info11" src="infos/desktop/luffy.png">
+			<img id="info12" src="infos/desktop/luffy.png">
+			<img id="info13" src="infos/desktop/luffy.png">
+			<img id="info14" src="infos/desktop/luffy.png">
+			<img id="info15" src="infos/desktop/luffy.png">
+			<!-- info Mobile -->
+			<img id="info0m" src="infos/mobile/luffy.png">
+			<img id="info1m" src="infos/mobile/luffy.png">
+			<img id="info2m" src="infos/mobile/luffy.png">
+			<img id="info3m" src="infos/mobile/luffy.png">
+			<img id="info4m" src="infos/mobile/luffy.png">
+			<img id="info5m" src="infos/mobile/luffy.png">
+			<img id="info6m" src="infos/mobile/luffy.png">
+			<img id="info7m" src="infos/mobile/luffy.png">
+			<img id="info8m" src="infos/mobile/luffy.png">
+			<img id="info9m" src="infos/mobile/luffy.png">
+			<img id="info10m" src="infos/mobile/luffy.png">
+			<img id="info11m" src="infos/mobile/luffy.png">
+			<img id="info12m" src="infos/mobile/luffy.png">
+			<img id="info13m" src="infos/mobile/luffy.png">
+			<img id="info14m" src="infos/mobile/luffy.png">
+			<img id="info15m" src="infos/mobile/luffy.png">
+			<!-- Other -->
+			<img id="imgPointer" src="img/crosshair.png">
+			<img id="imgPointer2" src="img/crosshair2.png">
+			<!-- Sounds -->
+			<audio id="audioBgm" loop src="audio/bird.mp3">
+			<audio id="audioLoop" loop src="audio/loop.mp3">
+			<!-- Mixins -->
+		</a-assets>
+
+		<a-camera id="camera" position="0 1.7 0" fov="60" look-controls="enabled: true" wasd-controls="enabled: false" active="true">
+		
+
+			<a-cursor id="cursor-main" cursor="fuse: true; fuseTimeout: 1000;"
+			position="0 0 -2"
+			geometry="primitive: ring; radiusOuter: 0.12; radiusInner: 0.105; thetaLength: 0; thetaStart: 90; segments-theta: 48; segments-phi: 1"
+			material="shader: flat; color: #fff; opacity: 1">
+				<a-animation begin="cursor-fusing" attribute="geometry.thetaLength" fill="backwards" from="0" to="360" easing="linear"></a-animation>
+				<a-animation begin="mouseleave" attribute="geometry.thetaLength" fill="backwards" from="0" to="0" dur="0"></a-animation>
+			</a-cursor>
+	<a-entity id="cursor-loader"
+	position="0 0 -2.0001"
+	geometry="primitive: ring; radiusOuter: 0.12; radiusInner: 0.105; segments-theta: 48; segments-phi: 1"
+	material="shader: flat; color: #fff; opacity: 0.5">
+	<a-circle position="0 0 0.1" material="shader: flat; color: #fff;" radius="0.01" segments="12"></a-circle>
+	<a-plane id="cameraplane" height="10" width="10" position="0 0 0.1" rotation="0 0 0" material="shader: flat; color: black; opacity: 0">
+		<a-animation begin="fadein" attribute="opacity" dur="1000" from="0" to="1"></a-animation>
+		<a-animation begin="fadeout" attribute="opacity" dur="1000" from="1" to="0"></a-animation>
+	</a-plane>
+	</a-entity>
+</a-camera>
+
+
+
+<a-entity id="mainscene" visible="false" rotation="0 0 0"> 
+	<!-- infos -->
+	<a-image id="message0" src="#info0" position="-10 7 6" width="12" height="6" opacity="0" look-at="[camera]">
+		<a-animation begin="showMsg" attribute="opacity" from="0" to="1"></a-animation>
+		<a-animation begin="hideMsg" attribute="opacity" from="1" to="0"></a-animation>
+	</a-image>
+	<a-image id="message1" src="#info1" position="7.3 1.7 9" width="12" height="6" opacity="0" look-at="[camera]">
+		<a-animation begin="showMsg" attribute="opacity" from="0" to="1"></a-animation>
+		<a-animation begin="hideMsg" attribute="opacity" from="1" to="0"></a-animation>
+	</a-image>
+	<!-- Pointers -->
+	<a-image id="messageTrigger0" position="-5 4 3" src="#imgPointer" height="1" width="1" look-at="[camera]" onclick="showMessage(0)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<a-image id="messageTrigger1" position="4.2 1.7 5.5" src="#imgPointer" height="1" width="1" look-at="[camera]" onclick="showMessage(1)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<!-- img2 -->
+	<a-image position="-0.2 0 3.7" src="#imgPointer" width="1" height="1" look-at="[camera]" onclick="moveToScene(1)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<!-- sky -->
+	<a-sky id="sky0" src="#main360"></a-sky>
+</a-entity>
+
+<!-- MAIN MENU -->
+
+<a-entity id="mainmenuscene" visible="false" rotation="0 0 0"> <!-- ROT OK POS OK -->
+	<!-- infos -->
+	<a-image id="message13" src="#info13" position="3.8 3 10" width="12" height="6" opacity="0" look-at="[camera]">
+		<a-animation begin="showMsg" attribute="opacity" from="0" to="1"></a-animation>
+		<a-animation begin="hideMsg" attribute="opacity" from="1" to="0"></a-animation>
+	</a-image>
+	<!-- Pointers -->
+	<a-image id="messageTrigger13" position="2 2.3 6" src="#imgPointer" height="1" width="1" look-at="[camera]" onclick="showMessage(13)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<!-- menu2 -->
+	<a-image position="5 -1.7 0.75" src="#imgPointer" width="1" height="1" look-at="[camera]" onclick="moveToScene(2)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<!-- menu -->
+	<a-image position="2.35 -1.3 4" src="#imgPointer" width="1" height="1" look-at="[camera]" onclick="moveToScene(3)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<!-- main -->
+	<a-image position="-2.45 -1.1 4" src="#imgPointer" width="1" height="1" look-at="[camera]" onclick="moveToScene(0)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<!-- menu4 -->
+	<a-image position="-5 -1.4 1" src="#imgPointer" width="1" height="1" look-at="[camera]" onclick="moveToScene(4)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<!-- Skybox -->
+	<a-sky id="sky1" src="#mainmenu360" rotation="0 0 0"></a-sky>
+</a-entity>
+
+<!-- menu2 -->
+
+<a-entity id="menu2scene" visible="false" rotation="0 0 0"> <!-- ROT OK POS OK -->
+	<!-- infos -->
+	<a-image id="message9" src="#info9" position="-11 1.8 0" width="12" height="6" opacity="0" look-at="[camera]">
+		<a-animation begin="showMsg" attribute="opacity" from="0" to="1"></a-animation>
+		<a-animation begin="hideMsg" attribute="opacity" from="1" to="0"></a-animation>
+	</a-image>
+	<a-image id="message10" src="#info10" position="0 7 -9" width="12" height="6" opacity="0" look-at="[camera]">
+		<a-animation begin="showMsg" attribute="opacity" from="0" to="1"></a-animation>
+		<a-animation begin="hideMsg" attribute="opacity" from="1" to="0"></a-animation>
+	</a-image>
+	<a-image id="message11" src="#info11" position="0 1.2 -11" width="12" height="6" opacity="0" look-at="[camera]">
+		<a-animation begin="showMsg" attribute="opacity" from="0" to="1"></a-animation>
+		<a-animation begin="hideMsg" attribute="opacity" from="1" to="0"></a-animation>
+	</a-image>
+	<a-image id="message12" src="#info12" position="11 0.4 0" width="12" height="6" opacity="0" look-at="[camera]">
+		<a-animation begin="showMsg" attribute="opacity" from="0" to="1"></a-animation>
+		<a-animation begin="hideMsg" attribute="opacity" from="1" to="0"></a-animation>
+	</a-image>
+	<!-- Pointers -->
+	<a-image id="messageTrigger9" position="-5 1.5 0" src="#imgPointer" height="1" width="1" look-at="[camera]" onclick="showMessage(9)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<a-image id="messageTrigger10" position="0 3.5 -4" src="#imgPointer" height="1" width="1" look-at="[camera]" onclick="showMessage(10)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<a-image id="messageTrigger11" position="0 1.2 -5" src="#imgPointer" height="1" width="1" look-at="[camera]" onclick="showMessage(11)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<a-image id="messageTrigger12" position="3 1.1 0" src="#imgPointer" height="1" width="1" look-at="[camera]" onclick="showMessage(12)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<!-- Oak -->
+	<a-image position="0.13 0 3.4" src="#imgPointer" width="1" height="1" look-at="[camera]" onclick="moveToScene(1)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<!-- Skybox -->
+	<a-sky id="sky2" src="#menu2360"></a-sky>
+</a-entity>
+
+<!-- menu -->
+
+<a-entity id="menuscene" visible="false" rotation="0 0 0"> <!-- ROT OK POS OK -->
+	<!-- infos -->
+	<a-image id="message2" src="#info2" position="-4 -1 -10" width="12" height="6" opacity="0" look-at="[camera]">
+		<a-animation begin="showMsg" attribute="opacity" from="0" to="1"></a-animation>
+		<a-animation begin="hideMsg" attribute="opacity" from="1" to="0"></a-animation>
+	</a-image>
+	<a-image id="message4" src="#info4" position="-0.2 4.5 -14" width="12" height="6" opacity="0" look-at="[camera]">
+		<a-animation begin="showMsg" attribute="opacity" from="0" to="1"></a-animation>
+		<a-animation begin="hideMsg" attribute="opacity" from="1" to="0"></a-animation>
+	</a-image>
+	<a-image id="message3" src="#info3" position="7.8 -3.5 -10" width="12" height="6" opacity="0" look-at="[camera]">
+		<a-animation begin="showMsg" attribute="opacity" from="0" to="1"></a-animation>
+		<a-animation begin="hideMsg" attribute="opacity" from="1" to="0"></a-animation>
+	</a-image>
+	<a-image id="message14" src="#info14" position="6.7 4.7 10" width="12" height="6" opacity="0" look-at="[camera]">
+		<a-animation begin="showMsg" attribute="opacity" from="0" to="1"></a-animation>
+		<a-animation begin="hideMsg" attribute="opacity" from="1" to="0"></a-animation>
+	</a-image>
+	<!-- Pointers -->
+	<a-image id="messageTrigger2" position="-2 0.2 -5" src="#imgPointer" height="1" width="1" look-at="[camera]" onclick="showMessage(2)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<a-image id="messageTrigger4" position="-0.2 2.1 -9" src="#imgPointer" height="1" width="1" look-at="[camera]" onclick="showMessage(4)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<a-image id="messageTrigger3" position="3.8 -1 -5" src="#imgPointer" height="1" width="1" look-at="[camera]" onclick="showMessage(3)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<a-image id="messageTrigger14" position="4.7 3.3 7" src="#imgPointer" height="1" width="1" look-at="[camera]" onclick="showMessage(14)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<!-- Oak -->
+	<a-image position="2.3 0 3" src="#imgPointer" width="1" height="1" look-at="[camera]" onclick="moveToScene(1)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<!-- Skybox -->
+	<a-sky id="sky3" src="#menu360"></a-sky>
+</a-entity>
+
+<!-- menu4 -->
+
+<a-entity id="menu4scene" visible="false" rotation="0 0 0"> <!-- ROT OK POS OK -->
+	<!-- infos -->
+	<a-image id="message5" src="#info5" position="-0.6 2.4 11" width="12" height="6" opacity="0" look-at="[camera]">
+		<a-animation begin="showMsg" attribute="opacity" from="0" to="1"></a-animation>
+		<a-animation begin="hideMsg" attribute="opacity" from="1" to="0"></a-animation>
+	</a-image>
+	<a-image id="message6" src="#info6" position="-11 1.3 -0.5" width="12" height="6" opacity="0" look-at="[camera]">
+		<a-animation begin="showMsg" attribute="opacity" from="0" to="1"></a-animation>
+		<a-animation begin="hideMsg" attribute="opacity" from="1" to="0"></a-animation>
+	</a-image>
+	<a-image id="message7" src="#info7" position="-0.2 4 -11" width="12" height="6" opacity="0" look-at="[camera]">
+		<a-animation begin="showMsg" attribute="opacity" from="0" to="1"></a-animation>
+		<a-animation begin="hideMsg" attribute="opacity" from="1" to="0"></a-animation>
+	</a-image>
+	<a-image id="message8" src="#info8" position="10.5 0 1.5" width="12" height="6" opacity="0" look-at="[camera]">
+		<a-animation begin="showMsg" attribute="opacity" from="0" to="1"></a-animation>
+		<a-animation begin="hideMsg" attribute="opacity" from="1" to="0"></a-animation>
+	</a-image>
+	<a-image id="message15" src="#info15" position="-5.5 9.5 11" width="12" height="6" opacity="0" look-at="[camera]">
+		<a-animation begin="showMsg" attribute="opacity" from="0" to="1"></a-animation>
+		<a-animation begin="hideMsg" attribute="opacity" from="1" to="0"></a-animation>
+	</a-image>
+	<!-- Pointers -->
+	<a-image id="messageTrigger5" position="-0.5 2 7" src="#imgPointer" height="1" width="1" look-at="[camera]" onclick="showMessage(5)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<a-image id="messageTrigger6" position="-6 1 -0.5" src="#imgPointer" height="1" width="1" look-at="[camera]" onclick="showMessage(6)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<a-image id="messageTrigger7" position="-0.2 3.5 -9" src="#imgPointer" height="1" width="1" look-at="[camera]" onclick="showMessage(7)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<a-image id="messageTrigger8" position="3 -0.75 0.5" src="#imgPointer" height="1" width="1" look-at="[camera]" onclick="showMessage(8)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<a-image id="messageTrigger15" position="-3.5 3 7" src="#imgPointer" height="1" width="1" look-at="[camera]" onclick="showMessage(15)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<!-- Oak -->
+	<a-image position="0.375 0 4.2" src="#imgPointer" width="1" height="1" look-at="[camera]" onclick="moveToScene(1)">
+		<a-image src="#imgPointer2" opacity="1" animation="property: opacity; dir: alternate; dur: 1000; loop: true; to: 0"></a-image>
+	</a-image>
+	<!-- Skybox -->
+	<a-sky id="sky4" src="#menu4360"></a-sky>
+</a-entity>
+
+<!-- Music -->
+<a-entity id="bgm" sound="src: #audioBgm"></a-entity>
+<a-entity id="loop" sound="src: #audioLoop"></a-entity>
+</a-scene>
+
+<script src="inspector.js"></script>
+
+<script type="text/javascript">
+
+
+var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+var msgNumber = 16;
+var scene = ["mainscene", "mainmenuscene", "menu2scene", "menuscene", "menu4scene"]
+var actualScene;
+
+function onSceneLoad ()
+{
+	document.querySelector('#audioBgm').play();
+	document.querySelector('#audioLoop').play();
+}
+
+function init ()
+{
+	actualScene = 1;
+	document.getElementById(scene[actualScene]).setAttribute('visible', 'true');
+	document.querySelector('#cameraplane').setAttribute('visible', 'false');
+	
+
+	resetMessages();
+	
+
+	if(isMobile)
+	{
+		switchToMobileVersion();
+	}
+}
+
+function moveToScene(nextScene)
+{
+	document.querySelector('#cameraplane').setAttribute('visible', 'true');
+
+	document.querySelector('#cameraplane').emit('fadein');
+
+	setTimeout(function()
+  {
+		document.querySelector('#cameraplane').emit('fadeout');
+  	switchScene(nextScene);
+		resetCameraPosition(nextScene);
+		resetMessages();
+  },1000);
+
+	setTimeout(function()
+  {
+		document.querySelector('#cameraplane').setAttribute('visible', 'false');
+  },2000);
+}
+
+function switchScene(nextScene)
+{
+	document.getElementById(scene[actualScene]).setAttribute('visible', 'false');
+	document.getElementById(scene[nextScene]).setAttribute('visible', 'true');
+
+	if(nextScene == 1)
+	{
+
+	}
+	else
+	{
+		
+	}
+
+	actualScene = nextScene;
+}
+
+function showMessage(messageId)
+{
+	hideOtherMessages(messageId);
+
+	document.querySelector('#messageTrigger' + messageId).setAttribute('visible', 'false');
+	document.querySelector('#message' + messageId).setAttribute('visible', 'true');
+	document.querySelector('#message' + messageId).emit('showMsg');
+}
+
+function resetMessages()
+{
+	for (i = 0; i < msgNumber; i++)
+	{
+		document.querySelector('#messageTrigger' + i).setAttribute('visible', 'true');
+		document.querySelector('#message' + i).setAttribute('visible', 'false');
+		document.querySelector('#message' + i).setAttribute('opacity', 0);
+	}
+}
+
+function hideOtherMessages(messageId)
+{
+	for (i = 0; i < msgNumber; i++)
+	{
+		if(i != messageId)
+		{
+			if(document.querySelector('#message' + i).getAttribute('opacity') == 1)
+			{
+				document.querySelector('#message' + i).emit('hideMsg');
+				document.querySelector('#messageTrigger' + i).setAttribute('visible', 'true');
+			}
+		}
+	}
+}
+
+function switchToMobileVersion()
+{
+	// Cambio i cartelli con quelli con font più grande
+	for (i = 0; i < msgNumber; i++)
+	{
+		document.querySelector('#message' + i).setAttribute('src', '#info' + i + 'm');
+	}
+
+	for (i = 0; i < 5; i++)
+	{
+		document.querySelector('#sky' + i).setAttribute('segments-width', '32');
+		document.querySelector('#sky' + i).setAttribute('segments-height', '10');
+		console.log(document.querySelector('#sky' + i));
+	}
+}
+
+function resetCameraPosition(nextScene)
+{
+	cameraRot = document.querySelector("#camera").getAttribute('rotation');
+	document.getElementById(scene[nextScene]).setAttribute('rotation', 'y', cameraRot.y);
+}
+
+function hideInterface()
+{
+	document.querySelector('#cursor-main').setAttribute('visible', 'false');
+	document.querySelector('#cursor-loader').setAttribute('visible', 'false');
+}
+
+
+
+window.onload = init();
+</script>
+<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
