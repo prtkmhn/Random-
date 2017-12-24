@@ -1,0 +1,5 @@
+													Dbms mini-project
+working on a restaurant finder application that allows the user to search for the desired restaurants by many filters, such as cuisine, chef, distance etc. 
+each user has a login and password with a unique key id 
+each restaurant has attributes such as cuisine, head chef, location i.e., latitude and longitude, delivery etc
+								

@@ -1,0 +1,23 @@
+{
+  "name": "Geotag-location",
+  "authors": [
+    "Anuj Syal <syal.anuj@gmail>"
+  ],
+  "description": "This library uses the geotag coordinates of an image and gets it's approximate location using google maps javascript api",
+  "main": "index.html",
+  "moduleType": [],
+  "keywords": [
+    "image",
+    "geotag",
+    "location"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

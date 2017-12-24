@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Geotagged Location of Images</title>
+</head>
+<body>
+<h2>Geotags</h2>
+<h4>Get the location of geotagged images using exif js</h4>
+Input geotagged images:<input id="file-input" type="file" />
+<br/><br/>
+<div id="map" style="height: 400px;width: 400px"></div>
+
+</body>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8s2tjnQm3-g2StLj2tpu0XxVcenKQ7bM&callback=initMap">
+</script>
+<script type="text/javascript" src="lib/js/exif.js"></script>
+<script type="text/javascript" src="script.js"></script>
+</html>

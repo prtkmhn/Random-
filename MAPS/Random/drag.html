@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<h1>yolo yolo </h1>
+    <title>Get Latitude and Longitude Coordinates of a Polygon - Google Maps API v3</title>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script type="text/javascript">
+        var Tri;
+        function initialize() {
+            var myLatLng = new google.maps.LatLng(28.991625, 77.706587);
+            var mapOptions = {
+                zoom: 6,
+                center: myLatLng,
+                mapTypeId: google.maps.MapTypeId.HYBRID
+            };
+
+            var map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+            var triangleCoords = [
+            new google.maps.LatLng(28.525416, 79.870605),
+            new google.maps.LatLng(27.190518, 77.530518),
+            new google.maps.LatLng(29.013807, 77.67334)
+
+        ];
+            // Construct the polygon 
+            Tri = new google.maps.Polygon({
+                paths: triangleCoords,
+                draggable: true,
+                editable: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.8,
+                strokeWeight: 0.5,
+                fillColor: '#FF0000',
+                fillOpacity: 0.35,
+				size:10,
+            });
+
+            Tri.setMap(map);
+            google.maps.event.addListener(Tri, "dragend", getPolygonCoords);
+            google.maps.event.addListener(Tri.getPath(), "insert_at", getPolygonCoords);
+            google.maps.event.addListener(Tri.getPath(), "remove_at", getPolygonCoords);
+            google.maps.event.addListener(Tri.getPath(), "set_at", getPolygonCoords);
+        }
+
+        function getPolygonCoords() {
+            var len = Tri.getPath().getLength();
+            var htmlStr = "";
+            for (var i = 0; i < len; i++) {
+                htmlStr += Tri.getPath().getAt(i).toUrlValue(5) + "<br>";
+            }
+            document.getElementById('info').innerHTML = htmlStr;
+        }        
+    </script>
+</head>
+
+<body onload="initialize()">
+    <div id="map-canvas" style="height: 750px; width: auto;">
+    </div>
+    <div id="info" style="position: absolute; font-family: Arial; font-size: 14px;">
+    </div>
+</body>
+</html>

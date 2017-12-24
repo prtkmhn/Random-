@@ -1,0 +1,155 @@
+<html>
+<head>
+  <title>ChatBot</title>
+</head>
+<style>
+body {
+  font: 15px arial, sans-serif;
+  background-color: #d9d9d9;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color:red;
+}
+
+#bodybox {
+  margin: auto;
+  max-width: 550px;
+  font: 15px arial, sans-serif;
+  background-color: black;
+  border-style: dashed;
+  border-width: 4px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+  box-shadow: 10px 10px 10px red;
+  border-radius: 5px;
+}
+
+#chatborder {
+  border-style: solid;
+  background-color: black;
+  border-width: 3px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  padding-right: 20px;
+  padding-left: 15px;
+  border-radius: 15px;
+}
+
+.chatlog {
+   font: 15px arial, sans-serif;
+}
+
+#chatbox {
+  font: 17px arial, sans-serif;
+  height: 22px;
+  width: 50%;
+}
+
+h1 {
+  margin: auto;
+}
+
+pre {
+  background-color: #f0f0f0;
+  margin-left: 20px;
+}
+
+</style>
+<body align = "center">
+  <h1>Chat with a computer</h1>
+  <h2 id="chat"></h2>
+  <div id='bodybox'>
+  <div id='chatborder'>
+    <p id="chatlog7" class="chatlog">&nbsp;</p>
+    <p id="chatlog6" class="chatlog">&nbsp;</p>
+    <p id="chatlog5" class="chatlog">&nbsp;</p>
+    <p id="chatlog4" class="chatlog">&nbsp;</p>
+    <p id="chatlog3" class="chatlog">&nbsp;</p>
+    <p id="chatlog2" class="chatlog">&nbsp;</p>
+    <p id="chatlog1" class="chatlog">&nbsp;</p>
+    <input type="text" name="chat" id="chatbox" placeholder="Hello. I am Chatbot. Talk to me." onfocus="placeHolder()">
+</body>
+<script>
+nlp = window.nlp_compromise;
+
+var messages = [], 
+  lastUserMessage = "",
+  botMessage = "",
+  botName = 'Chatbot',
+  talking = true;
+
+function chatbotResponse() {
+  talking = true;
+  botMessage = "I don't Understand";
+
+  if(lastUserMessage.toLowerCase().includes("hi") || lastUserMessage.toLowerCase().includes("hey") || lastUserMessage.toLowerCase().includes("hello")) {
+    botMessage = "Hey there! how's it going?";
+  }
+
+  if(lastUserMessage.toLowerCase().includes("good")) {
+    botMessage = "Thats good!";
+      if(lastUserMessage.toLowerCase().includes("you")) {
+    botMessage = botMessage.concat(" I am good thank you for asking.");
+    }
+  }
+  if(lastUserMessage.toLowerCase().includes("name")) {
+    botMessage = "My name is Chatbot"
+  }
+  if(lastUserMessage.toLowerCase().includes("no")) {
+    botMessage = "Why so negative";
+  }
+  if(lastUserMessage.toLowerCase().includes("hi")) {
+    botMessage = "hey there";
+  }
+  if(lastUserMessage.toLowerCase().includes("how are you")) {
+    botMessage = "good";
+  }
+  if(lastUserMessage.toLowerCase().includes("gender") || lastUserMessage.toLowerCase().includes("male") || lastUserMessage.toLowerCase().includes("female")) {
+    botMessage = "I am an artificial intelligance I have no gender.";
+  }
+}
+
+function newEntry() {
+  if (document.getElementById("chatbox").value != "") {
+    lastUserMessage = document.getElementById("chatbox").value;
+    document.getElementById("chatbox").value = "";
+    messages.push(lastUserMessage);
+    chatbotResponse();
+    messages.push("<b>" + botName + ":</b> " + botMessage);
+    Speech(botMessage);
+    for (var i = 1; i < 8; i++) {
+      if (messages[messages.length - i])
+        document.getElementById("chatlog" + i).innerHTML = messages[messages.length - i];
+    }
+  }
+}
+function Speech(say) {
+  if ('speechSynthesis' in window && talking) {
+    var utterance = new SpeechSynthesisUtterance(say);
+    speechSynthesis.speak(utterance);
+  }
+}
+document.onkeypress = keyPress;
+function keyPress(e) {
+  var x = e || window.event;
+  var key = (x.keyCode || x.which);
+  if (key == 13 || key == 3) {
+    newEntry();
+  }
+  if (key == 38) {
+    console.log('hi')
+  }
+}
+function placeHolder() {
+  document.getElementById("chatbox").placeholder = "";
+}
+</script>
+</html>
+
+

@@ -1,0 +1,165 @@
+<html>
+<head>
+    <title>Drawing tools</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    
+  </head>
+<body onLoad="initialize()">
+
+  <div id="map_canvas" style="width:70%; height:70%"></div>
+
+  <div id="latlong">
+    <p>Latitude: <input size="20" type="text" id="latbox" name="lat" ></p>
+    <p>Longitude: <input size="20" type="text" id="lngbox" name="lng" ></p>
+  </div>
+   <script>
+      // This example requires the Drawing library. Include the libraries=drawing
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=drawing">
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map_canvas'), {
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 8
+        });
+
+        var drawingManager = new google.maps.drawing.DrawingManager({
+          drawingMode: google.maps.drawing.OverlayType.MARKER,
+          drawingControl: true,
+          drawingControlOptions: {
+            position: google.maps.ControlPosition.TOP_CENTER,
+            drawingModes: [
+              google.maps.drawing.OverlayType.MARKER,
+              google.maps.drawing.OverlayType.CIRCLE,
+              google.maps.drawing.OverlayType.POLYGON,
+              google.maps.drawing.OverlayType.POLYLINE,
+              google.maps.drawing.OverlayType.RECTANGLE
+            ]
+          },
+          markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
+          circleOptions: {
+            fillColor: '#ffff00',
+            fillOpacity: 1,
+            strokeWeight: 5,
+            clickable: false,
+            editable: true,
+            zIndex: 1
+          }
+        });
+        drawingManager.setMap(map);
+      }
+    </script>
+
+</body>
+</html>
+
+<cfoutput>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDpJja4KOkzQU7yhrTdxxt3KrKk9b3057Q&sensor=false&libraries=drawing"></script>
+</cfoutput>
+
+<script type="text/javascript">
+//<![CDATA[
+
+    
+    var map = null;
+    var marker = null;
+
+    
+    var infowindow = new google.maps.InfoWindow({ 
+        size: new google.maps.Size(150,50)
+        });
+
+    
+    function createMarker(latlng, name, html) {
+
+    var contentString = html;
+
+    var marker = new google.maps.Marker({
+        position: latlng,
+        map: map,
+        zIndex: Math.round(latlng.lat()*-100000)<<5
+        });
+
+    google.maps.event.addListener(marker, 'click', function() {
+        infowindow.setContent(contentString); 
+        infowindow.open(map,marker);
+        });
+
+    google.maps.event.trigger(marker, 'click');    
+    return marker;
+
+}
+
+
+function initialize() {
+
+    
+    var myLatlng = new google.maps.LatLng(12.867420174299589,77.5664484500885);
+
+    // create the map
+    var myOptions = {
+        zoom: 19,
+        center: myLatlng,
+        mapTypeControl: true,
+        mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+        navigationControl: true,
+        mapTypeId: google.maps.MapTypeId.SATELLITE
+    }
+
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+    // establish the initial marker/pin
+    var image = '/images/googlepins/pin2.png';  
+    marker = new google.maps.Marker({
+      position: myLatlng,
+      map: map,
+      icon: image,
+      title:"Property Location"
+    });
+
+    // establish the initial div form fields
+    formlat = document.getElementById("latbox").value = myLatlng.lat();
+    formlng = document.getElementById("lngbox").value = myLatlng.lng();
+
+    // close popup window
+    google.maps.event.addListener(map, 'click', function() {
+        infowindow.close();
+        });
+
+    // removing old markers/pins
+    google.maps.event.addListener(map, 'click', function(event) {
+        //call function to create marker
+         if (marker) {
+            marker.setMap(null);
+            marker = null;
+         }
+
+        // Information for popup window if you so chose to have one
+        /*
+         marker = createMarker(event.latLng, "name", "<b>Location</b><br>"+event.latLng);
+        */
+
+        var image = '/images/googlepins/pin2.png';
+        var myLatLng = event.latLng ;
+        /*  
+        var marker = new google.maps.Marker({
+            by removing the 'var' subsquent pin placement removes the old pin icon
+        */
+        marker = new google.maps.Marker({   
+            position: myLatLng,
+            map: map,
+            icon: image,
+            title:"Property Location"
+        });
+
+        // populate the form fields with lat & lng 
+        formlat = document.getElementById("latbox").value = event.latLng.lat();
+        formlng = document.getElementById("lngbox").value = event.latLng.lng();
+
+    });
+
+}
+//]]>
+
+</script> 
