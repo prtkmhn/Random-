@@ -10,10 +10,8 @@ public struct WorldConfig: Equatable, Sendable {
     public var gravityPerG: Double
     /// Fraction of speed lost per second. Higher feels like thicker air.
     public var airDrag: Double
-    /// Bounce at walls and between beads: 0 is dead, 1 is perfectly bouncy.
-    public var restitution: Double
-    /// Collision passes per step. More passes stack beads more cleanly.
-    public var collisionIterations: Int
+    /// Constraint passes per step. More passes pack deep piles more tightly.
+    public var solverIterations: Int
 
     public init(
         width: Double,
@@ -22,8 +20,7 @@ public struct WorldConfig: Equatable, Sendable {
         beadRadius: Double = 2.5,
         gravityPerG: Double = 700,
         airDrag: Double = 0.5,
-        restitution: Double = 0.2,
-        collisionIterations: Int = 4
+        solverIterations: Int = 8
     ) {
         self.width = width
         self.height = height
@@ -31,12 +28,15 @@ public struct WorldConfig: Equatable, Sendable {
         self.beadRadius = beadRadius
         self.gravityPerG = gravityPerG
         self.airDrag = airDrag
-        self.restitution = restitution
-        self.collisionIterations = collisionIterations
+        self.solverIterations = solverIterations
     }
 }
 
 /// Beads of water in a rectangle with solid walls.
+///
+/// Uses a position-based solver: each step predicts positions, projects out
+/// wall and bead overlaps, then takes velocity from the corrected motion.
+/// Contacts therefore never add energy, which keeps deep piles stable.
 public final class BeadWorld {
     public let config: WorldConfig
     public private(set) var positions: [Vec2]
@@ -44,6 +44,7 @@ public final class BeadWorld {
     /// Current gravity in points per second squared, in screen coordinates.
     public private(set) var gravity: Vec2
 
+    private var previous: [Vec2]
     private var rng: SplitMix64
     private let cols: Int
     private let rows: Int
@@ -61,9 +62,11 @@ public final class BeadWorld {
         self.cellHead = Array(repeating: -1, count: columns * gridRows)
         self.nextInCell = Array(repeating: -1, count: config.beadCount)
         self.positions = []
+        self.previous = []
         self.velocities = Array(repeating: .zero, count: config.beadCount)
         self.gravity = Vec2(0, config.gravityPerG)
         spawnReservoir()
+        self.previous = positions
     }
 
     /// Sets gravity from a direction in screen coordinates (y down), in g.
@@ -86,14 +89,18 @@ public final class BeadWorld {
     public func step(dt: Double) {
         let damping = exp(-config.airDrag * dt)
         for i in positions.indices {
+            previous[i] = positions[i]
             velocities[i] = (velocities[i] + gravity * dt) * damping
             positions[i] = positions[i] + velocities[i] * dt
         }
-        for _ in 0..<config.collisionIterations {
+        for _ in 0..<config.solverIterations {
             keepInsideWalls()
             separateBeads()
         }
         keepInsideWalls()
+        for i in positions.indices {
+            velocities[i] = (positions[i] - previous[i]) * (1 / dt)
+        }
     }
 
     /// Places beads in a loose grid across the top, so a tilt pours them out.
@@ -114,28 +121,11 @@ public final class BeadWorld {
 
     private func keepInsideWalls() {
         let r = config.beadRadius
-        let e = config.restitution
         let maxX = config.width - r
         let maxY = config.height - r
         for i in positions.indices {
-            var p = positions[i]
-            var v = velocities[i]
-            if p.x < r {
-                p.x = r
-                if v.x < 0 { v.x = -v.x * e }
-            } else if p.x > maxX {
-                p.x = maxX
-                if v.x > 0 { v.x = -v.x * e }
-            }
-            if p.y < r {
-                p.y = r
-                if v.y < 0 { v.y = -v.y * e }
-            } else if p.y > maxY {
-                p.y = maxY
-                if v.y > 0 { v.y = -v.y * e }
-            }
-            positions[i] = p
-            velocities[i] = v
+            positions[i].x = min(max(positions[i].x, r), maxX)
+            positions[i].y = min(max(positions[i].y, r), maxY)
         }
     }
 
@@ -157,7 +147,7 @@ public final class BeadWorld {
                     var j = cellHead[ny * cols + nx]
                     while j != -1 {
                         if j > i {
-                            collide(i, j, diameter: diameter)
+                            pushApart(i, j, diameter: diameter)
                         }
                         j = nextInCell[j]
                     }
@@ -166,7 +156,7 @@ public final class BeadWorld {
         }
     }
 
-    private func collide(_ i: Int, _ j: Int, diameter: Double) {
+    private func pushApart(_ i: Int, _ j: Int, diameter: Double) {
         let delta = positions[j] - positions[i]
         let distance = delta.length
         guard distance < diameter else { return }
@@ -176,13 +166,6 @@ public final class BeadWorld {
         let push = (diameter - distance) * 0.5
         positions[i] = positions[i] - n * push
         positions[j] = positions[j] + n * push
-
-        let relative = velocities[j] - velocities[i]
-        let closing = relative.x * n.x + relative.y * n.y
-        guard closing < 0 else { return }
-        let impulse = (1 + config.restitution) * closing * 0.5
-        velocities[i] = velocities[i] + n * impulse
-        velocities[j] = velocities[j] - n * impulse
     }
 
     private func cellColumn(_ x: Double) -> Int {
