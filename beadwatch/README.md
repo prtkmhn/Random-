@@ -1,6 +1,6 @@
 # Beadwatch: free watch bead-physics toy (cloud-only plan)
 
-Status: **DRAFT, awaiting your approval.** Nothing below is built yet.
+Status: **code written, CI not yet verified.** The engine (`Engine/`), watch app (`Watch/`), and iOS shell (`iOS/`) are in this folder. Installing on a physical watch still needs a Mac or the paid TestFlight path (section 8).
 
 ## 1. Goal
 

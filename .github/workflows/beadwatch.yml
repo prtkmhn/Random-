@@ -1,0 +1,33 @@
+name: beadwatch
+
+on:
+  push:
+    paths:
+      - "beadwatch/**"
+      - ".github/workflows/beadwatch.yml"
+  workflow_dispatch:
+
+jobs:
+  engine-tests:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run engine unit tests
+        working-directory: beadwatch
+        run: swift test --package-path Engine
+
+  build-apps:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate Xcode project
+        working-directory: beadwatch
+        run: xcodegen generate --spec project.yml
+      - name: Build iOS app with embedded watch app
+        working-directory: beadwatch
+        run: xcodebuild -project Trickle.xcodeproj -scheme Trickle -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
+      - name: Build watch app
+        working-directory: beadwatch
+        run: xcodebuild -project Trickle.xcodeproj -scheme TrickleWatch -destination 'generic/platform=watchOS Simulator' CODE_SIGNING_ALLOWED=NO build
