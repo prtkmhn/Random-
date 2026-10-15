@@ -19,6 +19,8 @@ final class BeadModel {
     private let flickThreshold = 2.2
     private let flickCooldown = 0.7
     private let flickSpeed = 900.0
+    private var simulatedTime = 0.0
+    private var lastSimulatedFlick = 0.0
 
     var positions: [Vec2] { world?.positions ?? [] }
     var beadRadius: Double { world?.config.beadRadius ?? 0 }
@@ -53,6 +55,17 @@ final class BeadModel {
         let elapsed = min(date.timeIntervalSince(lastDate ?? date), 0.1)
         lastDate = date
         accumulator += elapsed
+
+        if !motion.isDeviceMotionAvailable {
+            // No motion sensors, such as in the Simulator: sway the beads and flick them now and then.
+            simulatedTime += elapsed
+            let angle = sin(simulatedTime * 0.6) * 1.1
+            gravity = Vec2(sin(angle), cos(angle))
+            if simulatedTime - lastSimulatedFlick > 4 {
+                lastSimulatedFlick = simulatedTime
+                pendingImpulse = Vec2(0, -flickSpeed)
+            }
+        }
 
         world.setGravity(gravity)
         if let impulse = pendingImpulse {

@@ -31,3 +31,25 @@ jobs:
       - name: Build watch app
         working-directory: beadwatch
         run: xcodebuild -project Trickle.xcodeproj -scheme TrickleWatch -destination 'generic/platform=watchOS Simulator' CODE_SIGNING_ALLOWED=NO build
+
+  simulate-watch:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate Xcode project
+        working-directory: beadwatch
+        run: xcodegen generate --spec project.yml
+      - name: Build watch app with derived data
+        working-directory: beadwatch
+        run: xcodebuild -project Trickle.xcodeproj -scheme TrickleWatch -destination 'generic/platform=watchOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+      - name: Run in Apple Watch simulator
+        working-directory: beadwatch
+        run: bash simulate-watch.sh
+      - name: Upload screenshots and video
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: watch-simulation
+          path: beadwatch/sim-output
