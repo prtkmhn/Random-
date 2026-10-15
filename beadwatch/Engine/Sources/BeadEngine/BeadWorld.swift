@@ -23,7 +23,7 @@ public struct WorldConfig: Equatable, Sendable {
         gravityPerG: Double = 700,
         airDrag: Double = 0.5,
         restitution: Double = 0.2,
-        collisionIterations: Int = 3
+        collisionIterations: Int = 4
     ) {
         self.width = width
         self.height = height
@@ -169,9 +169,10 @@ public final class BeadWorld {
     private func collide(_ i: Int, _ j: Int, diameter: Double) {
         let delta = positions[j] - positions[i]
         let distance = delta.length
-        guard distance < diameter, distance > 1e-9 else { return }
+        guard distance < diameter else { return }
 
-        let n = delta * (1 / distance)
+        // Beads sitting exactly on top of each other have no direction, so push them apart along x.
+        let n = distance > 1e-9 ? delta * (1 / distance) : Vec2(1, 0)
         let push = (diameter - distance) * 0.5
         positions[i] = positions[i] - n * push
         positions[j] = positions[j] + n * push
