@@ -93,3 +93,18 @@ These need your Apple account and card, so I can't do them for you:
 - TestFlight delivery of watch apps is what we expect, not something I've confirmed. We check at Phase 4.
 - Feel, battery, and frame rate can only be judged on the watch.
 - TestFlight builds expire after 90 days, so the build needs re-uploading occasionally.
+
+## 11. Free install on a borrowed Mac
+
+You need: a Mac for about an hour, your iPhone paired to your watch, and a free Apple ID. No payment.
+
+1. Download the code: https://github.com/prtkmhn/Random-/archive/refs/heads/claude/beadfall-apple-watch-plan-yuqepm.zip and unzip it.
+2. Install Xcode from the Mac App Store. It's free but large.
+3. Open Terminal in the `beadwatch` folder and run `brew install xcodegen`, then `xcodegen generate`.
+4. Open `Trickle.xcodeproj`. In Xcode, go to Settings > Accounts and add your free Apple ID.
+5. In `project.yml`, replace every `com.example` with a prefix only you use, such as `com.yourname`. Free accounts need unique bundle IDs. Then run `xcodegen generate` again.
+6. For both the Trickle and TrickleWatch targets, set Signing & Capabilities > Team to your Apple ID's personal team.
+7. Connect your iPhone with a cable, unlock it, tap Trust, and turn on Developer Mode (Settings > Privacy & Security > Developer Mode).
+8. Select the Trickle scheme and run it on your iPhone. The watch app should install to your watch. The watch's own Developer Mode step is not verified, so check that on the watch itself.
+
+Limits of the free route: the app stops opening after 7 days, so you re-run it from Xcode each week. Free accounts can keep only three sideloaded apps at a time.
